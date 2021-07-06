@@ -4,7 +4,7 @@ import { SentMessage } from "./SentMessage";
 
 describe("SentMessage", () => {
   test("renders message", () => {
-    const message = "Name";
+    const message = "Hello World";
     const timestamp = new Date().getTime();
     render(<SentMessage message={message} timestamp={timestamp} />);
     const element = screen.getByText(message);
@@ -12,7 +12,7 @@ describe("SentMessage", () => {
   });
 
   test("renders timestamp", () => {
-    const message = "Name";
+    const message = "Hello World";
     const timestamp = new Date().getTime();
     render(<SentMessage message={message} timestamp={timestamp} />);
     const element = screen.getByText(format(new Date(timestamp), "HH:mm:ss"));
