@@ -4,9 +4,9 @@ import { RoomHeader } from "./RoomHeader";
 describe("RoomHeader", () => {
   test("renders room name", () => {
     const open = false;
-    const openMemberList = jest.fn(() => void 0);
+    const openMemberList = jest.fn<void, []>();
     const room = "Room Name";
-    const leave = jest.fn(() => void 0);
+    const leave = jest.fn<void, []>();
     render(
       <RoomHeader
         open={open}
@@ -21,9 +21,9 @@ describe("RoomHeader", () => {
 
   test("renders open member list button & triggers openMemberList", () => {
     const open = false;
-    const openMemberList = jest.fn(() => void 0);
+    const openMemberList = jest.fn<void, []>();
     const room = "Room Name";
-    const leave = jest.fn(() => void 0);
+    const leave = jest.fn<void, []>();
     render(
       <RoomHeader
         open={open}
@@ -41,9 +41,9 @@ describe("RoomHeader", () => {
 
   test("renders leave room button & triggers leave", () => {
     const open = false;
-    const openMemberList = jest.fn(() => void 0);
+    const openMemberList = jest.fn<void, []>();
     const room = "Room Name";
-    const leave = jest.fn(() => void 0);
+    const leave = jest.fn<void, []>();
     render(
       <RoomHeader
         open={open}

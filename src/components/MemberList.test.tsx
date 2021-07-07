@@ -4,7 +4,7 @@ import { MemberList } from "./MemberList";
 describe("MemberList", () => {
   test("renders member list", () => {
     const open = false;
-    const closeMemberList = jest.fn(() => void 0);
+    const closeMemberList = jest.fn<void, []>();
     const members = {
       randomId1: { name: "Name 1", left: false },
       randomId2: { name: "Name 2", left: true },
@@ -22,7 +22,7 @@ describe("MemberList", () => {
 
   test("renders members", () => {
     const open = false;
-    const closeMemberList = jest.fn(() => void 0);
+    const closeMemberList = jest.fn<void, []>();
     const members = {
       randomId1: { name: "Name 1", left: false },
       randomId2: { name: "Name 2", left: true },
@@ -42,7 +42,7 @@ describe("MemberList", () => {
 
   test("renders close member list button & triggers closeMemberList", () => {
     const open = true;
-    const closeMemberList = jest.fn(() => void 0);
+    const closeMemberList = jest.fn<void, []>();
     const members = {
       randomId1: { name: "Name 1", left: false },
       randomId2: { name: "Name 2", left: true },
