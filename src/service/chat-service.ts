@@ -83,7 +83,7 @@ const reducer = ({ error, ...state }: State, action: Action): State => {
   }
 };
 
-export const useChatService = (): ChatService => {
+export const useChatService = (port: number = 5566): ChatService => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [state, dispatch] = useReducer(reducer, { status: "connecting" });
 
@@ -137,7 +137,7 @@ export const useChatService = (): ChatService => {
 
   useEffect(() => {
     let ignore = false;
-    const socket = io("http://localhost:5566", { path: "/chat-service/" });
+    const socket = io(`http://localhost:${port}`, { path: "/chat-service/" });
 
     socket.on("connect", () => {
       if (!ignore) {
