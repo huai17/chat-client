@@ -122,8 +122,8 @@ export const useChatService = (port: number = 5566): ChatService => {
       if (!socket)
         return void dispatch({ type: "error", error: "NOT_CONNECTED" });
       if (message)
-        socket.emit("message", message, (err: string | null): void => {
-          if (err) return void console.error(err);
+        socket.emit("message", message, (error: string | null): void => {
+          if (error) return void dispatch({ type: "error", error });
           dispatch({
             type: "message",
             id: socket.id,
