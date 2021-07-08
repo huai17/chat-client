@@ -40,7 +40,7 @@ describe("MemberList", () => {
         const { members } = renderMemberList();
         const ids = Object.keys(members);
         const name1 = screen.getByText(members[ids[0]].name[0]);
-        const name2 = screen.getByText(members[ids[0]].name[0]);
+        const name2 = screen.getByText(members[ids[1]].name[0]);
         expect(name1).toBeInTheDocument();
         expect(name2).toBeInTheDocument();
       });
@@ -50,7 +50,7 @@ describe("MemberList", () => {
       const { members } = renderMemberList();
       const ids = Object.keys(members);
       const name1 = screen.getByText(members[ids[0]].name);
-      const name2 = screen.getByText(members[ids[0]].name);
+      const name2 = screen.getByText(members[ids[1]].name);
       expect(name1).toBeInTheDocument();
       expect(name2).toBeInTheDocument();
     });
