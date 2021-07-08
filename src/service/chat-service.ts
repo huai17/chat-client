@@ -167,7 +167,7 @@ export const useChatService = (port: number = 5566): ChatService => {
       socket.close();
       ignore = true;
     };
-  }, []);
+  }, [port]);
 
   return { ...state, join, leave, send };
 };
