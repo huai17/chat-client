@@ -58,6 +58,7 @@ describe("JoinRoomForm", () => {
     const element = screen.getByTestId(testId);
     const roomInput = screen.getByPlaceholderText("Room Name");
     fireEvent.change(roomInput, { target: { value: "Room" } });
+    expect(element).toBeDisabled();
     fireEvent.click(element);
     expect(join.mock.calls.length).toBe(0);
   });
@@ -68,6 +69,7 @@ describe("JoinRoomForm", () => {
     const element = screen.getByTestId(testId);
     const nameInput = screen.getByPlaceholderText("Nick Name");
     fireEvent.change(nameInput, { target: { value: "Name" } });
+    expect(element).toBeDisabled();
     fireEvent.click(element);
     expect(join.mock.calls.length).toBe(0);
   });

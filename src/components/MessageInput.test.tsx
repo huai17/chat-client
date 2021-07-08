@@ -43,6 +43,7 @@ describe("MessageInput", () => {
     const testId = "send message";
     const { send } = renderMessageInput();
     const element = screen.getByTestId(testId);
+    expect(element).toBeDisabled();
     fireEvent.click(element);
     expect(send.mock.calls.length).toBe(0);
   });

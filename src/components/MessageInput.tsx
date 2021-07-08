@@ -32,11 +32,10 @@ export const MessageInput = ({ send }: Props) => {
             <InputAdornment position="end">
               <IconButton
                 data-testid="send message"
+                disabled={!message}
                 onClick={() => {
-                  if (message) {
-                    send(message);
-                    setMessage("");
-                  }
+                  send(message);
+                  setMessage("");
                 }}
               >
                 <SendIcon />
