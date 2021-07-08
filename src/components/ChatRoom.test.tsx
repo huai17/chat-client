@@ -49,193 +49,96 @@ describe("ChatRoom", () => {
     window.HTMLElement.prototype.scrollIntoView = function () {};
   });
 
-  describe("RoomHeader", () => {
-    test("renders room name", () => {
-      const { room } = renderChatRoom();
-      const element = screen.getByText(room);
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders open member list button", () => {
-      const testId = "open member list";
-      renderChatRoom();
-      const element = screen.getByTestId(testId);
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders leave room button", () => {
-      const testId = "leave room";
-      renderChatRoom();
-      const element = screen.getByTestId(testId);
-      expect(element).toBeInTheDocument();
-    });
-
-    test("triggers leave", () => {
-      const testId = "leave room";
-      const { leave } = renderChatRoom();
-      const element = screen.getByTestId(testId);
-      expect(element).toBeInTheDocument();
-      fireEvent.click(element);
-      expect(leave.mock.calls.length).toBe(1);
-    });
+  test("renders RoomHeader", () => {
+    const openTestId = "open member list";
+    const leaveTestId = "leave room";
+    const { room, leave } = renderChatRoom();
+    const title = screen.getByText(room);
+    const openButton = screen.getByTestId(openTestId);
+    const leaveButton = screen.getByTestId(leaveTestId);
+    expect(title).toBeInTheDocument();
+    expect(openButton).toBeInTheDocument();
+    expect(leaveButton).toBeInTheDocument();
+    fireEvent.click(leaveButton);
+    expect(leave.mock.calls.length).toBe(1);
   });
 
-  describe("MemberList", () => {
-    test("renders member list", () => {
-      renderChatRoom();
-      const element = screen.getByText("Member List");
-      expect(element).toBeInTheDocument();
-    });
-
-    describe("MemberListItem", () => {
-      describe("MemberAvatar", () => {
-        test("renders first character of name", () => {
-          const { members } = renderChatRoom();
-          const ids = Object.keys(members);
-          const name1 = screen.getByText(members[ids[0]].name[0]);
-          const name2 = screen.getAllByText(members[ids[1]].name[0]);
-          expect(name2.length).toBe(2);
-          expect(name1).toBeInTheDocument();
-          expect(name2[0]).toBeInTheDocument();
-          expect(name2[1]).toBeInTheDocument();
-        });
-      });
-
-      test("renders full name", () => {
-        const { members } = renderChatRoom();
-        const ids = Object.keys(members);
-        const name1 = screen.getByText(members[ids[0]].name);
-        const name2 = screen.getByText(members[ids[1]].name);
-        expect(name1).toBeInTheDocument();
-        expect(name2).toBeInTheDocument();
-      });
-
-      test("renders online", () => {
-        renderChatRoom();
-        const element = screen.getByText("online");
-        expect(element).toBeInTheDocument();
-      });
-
-      test("renders offline", () => {
-        renderChatRoom();
-        const element = screen.getByText("offline");
-        expect(element).toBeInTheDocument();
-      });
-    });
-
-    test("renders close member list button", () => {
-      const testId = "close member list";
-      renderChatRoom();
-      const element = screen.getByTestId(testId);
-      expect(element).toBeInTheDocument();
-    });
+  test("rendersMemberList", () => {
+    const testId = "close member list";
+    const { members } = renderChatRoom();
+    const ids = Object.keys(members);
+    const title = screen.getByText("Member List");
+    const avatar1 = screen.getByText(members[ids[0]].name[0]);
+    const avatar2 = screen.getAllByText(members[ids[1]].name[0]);
+    const name1 = screen.getByText(members[ids[0]].name);
+    const name2 = screen.getByText(members[ids[1]].name);
+    const online = screen.getByText("online");
+    const offline = screen.getByText("offline");
+    const button = screen.getByTestId(testId);
+    expect(title).toBeInTheDocument();
+    expect(avatar2.length).toBe(2);
+    expect(avatar1).toBeInTheDocument();
+    expect(avatar2[0]).toBeInTheDocument();
+    expect(avatar2[1]).toBeInTheDocument();
+    expect(name1).toBeInTheDocument();
+    expect(name2).toBeInTheDocument();
+    expect(online).toBeInTheDocument();
+    expect(offline).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
   });
 
-  describe("MessageInput", () => {
-    test("renders testarea", () => {
-      renderChatRoom();
-      const element = screen.getByPlaceholderText("Send Message...");
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders send message button", () => {
-      const testId = "send message";
-      renderChatRoom();
-      const element = screen.getByTestId(testId);
-      expect(element).toBeInTheDocument();
-    });
-
-    test("triggers send", () => {
-      const testId = "send message";
-      const value = "Hello World";
-      const { send } = renderChatRoom();
-      const textarea = screen.getByPlaceholderText(
-        "Send Message..."
-      ) as HTMLTextAreaElement;
-      fireEvent.change(textarea, { target: { value } });
-      const element = screen.getByTestId(testId);
-      fireEvent.click(element);
-      expect(send.mock.calls.length).toBe(1);
-      expect(send.mock.calls[0][0]).toBe(value);
-      expect(textarea.value).toBe("");
-    });
-
-    test("not triggers send while textarea is empty", () => {
-      const testId = "send message";
-      const { send } = renderChatRoom();
-      const element = screen.getByTestId(testId);
-      fireEvent.click(element);
-      expect(send.mock.calls.length).toBe(0);
-    });
+  test("renders MessageInput", () => {
+    const testId = "send message";
+    const value = "Hello World";
+    const { send } = renderChatRoom();
+    const textarea = screen.getByPlaceholderText(
+      "Send Message..."
+    ) as HTMLTextAreaElement;
+    const button = screen.getByTestId(testId);
+    expect(textarea).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
+    fireEvent.change(textarea, { target: { value } });
+    fireEvent.click(button);
+    expect(send.mock.calls.length).toBe(1);
+    expect(send.mock.calls[0][0]).toBe(value);
+    expect(textarea.value).toBe("");
+    fireEvent.click(button);
+    expect(send.mock.calls.length).toBe(1);
   });
 
-  describe("Messages", () => {
-    describe("NoticedMessage", () => {
-      test("renders joined message", () => {
-        const { members, notices } = renderChatRoom();
-        const element = screen.getByText(
-          `${members[notices[0].id].name} has ${notices[0].type} - ${format(
-            new Date(notices[0].timestamp),
-            "HH:mm:ss"
-          )}`
-        );
-        expect(element).toBeInTheDocument();
-      });
-
-      test("renders left message", () => {
-        const { members, notices } = renderChatRoom();
-        const element = screen.getByText(
-          `${members[notices[3].id].name} has ${notices[3].type} - ${format(
-            new Date(notices[3].timestamp),
-            "HH:mm:ss"
-          )}`
-        );
-        expect(element).toBeInTheDocument();
-      });
-    });
-
-    describe("SentMessage", () => {
-      test("renders message", () => {
-        const { notices } = renderChatRoom();
-        if (notices[2].type !== "message") throw new Error();
-        const element = screen.getByText(notices[2].message);
-        expect(element).toBeInTheDocument();
-      });
-
-      test("renders timestamp", () => {
-        const { notices } = renderChatRoom();
-        const element = screen.getByText(
-          format(new Date(notices[2].timestamp), "HH:mm:ss")
-        );
-        expect(element).toBeInTheDocument();
-      });
-    });
-
-    describe("ReceivedMessage", () => {
-      test("renders message", () => {
-        const { notices } = renderChatRoom();
-        if (notices[1].type !== "message") throw new Error();
-        const element = screen.getByText(notices[1].message);
-        expect(element).toBeInTheDocument();
-      });
-
-      test("renders timestamp", () => {
-        const { notices } = renderChatRoom();
-        const element = screen.getByText(
-          format(new Date(notices[1].timestamp), "HH:mm:ss")
-        );
-        expect(element).toBeInTheDocument();
-      });
-
-      describe("MemberAvatar", () => {
-        test("renders first character of name", () => {
-          const { members, notices } = renderChatRoom();
-          const elements = screen.getAllByText(members[notices[1].id].name[0]);
-          expect(elements.length).toBe(2);
-          expect(elements[0]).toBeInTheDocument();
-          expect(elements[1]).toBeInTheDocument();
-        });
-      });
-    });
+  test("renders Messages", () => {
+    const { members, notices } = renderChatRoom();
+    const joinedMessage = screen.getByText(
+      `${members[notices[0].id].name} has ${notices[0].type} - ${format(
+        new Date(notices[0].timestamp),
+        "HH:mm:ss"
+      )}`
+    );
+    const leftMessage = screen.getByText(
+      `${members[notices[3].id].name} has ${notices[3].type} - ${format(
+        new Date(notices[3].timestamp),
+        "HH:mm:ss"
+      )}`
+    );
+    if (notices[2].type !== "message") throw new Error();
+    const sentMessage = screen.getByText(notices[2].message);
+    const sentTimestamp = screen.getByText(
+      format(new Date(notices[2].timestamp), "HH:mm:ss")
+    );
+    const avatar = screen.getAllByText(members[notices[1].id].name[0]);
+    if (notices[1].type !== "message") throw new Error();
+    const reveivedMessage = screen.getByText(notices[1].message);
+    const receivedTimestamp = screen.getByText(
+      format(new Date(notices[1].timestamp), "HH:mm:ss")
+    );
+    expect(joinedMessage).toBeInTheDocument();
+    expect(leftMessage).toBeInTheDocument();
+    expect(sentMessage).toBeInTheDocument();
+    expect(sentTimestamp).toBeInTheDocument();
+    expect(avatar.length).toBe(2);
+    expect(avatar[0]).toBeInTheDocument();
+    expect(avatar[1]).toBeInTheDocument();
+    expect(reveivedMessage).toBeInTheDocument();
+    expect(receivedTimestamp).toBeInTheDocument();
   });
 });

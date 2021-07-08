@@ -34,69 +34,45 @@ describe("Messages", () => {
     window.HTMLElement.prototype.scrollIntoView = function () {};
   });
 
-  describe("NoticedMessage", () => {
-    test("renders joined message", () => {
-      const { members, notices } = renderMessages();
-      const element = screen.getByText(
-        `${members[notices[0].id].name} has ${notices[0].type} - ${format(
-          new Date(notices[0].timestamp),
-          "HH:mm:ss"
-        )}`
-      );
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders left message", () => {
-      const { members, notices } = renderMessages();
-      const element = screen.getByText(
-        `${members[notices[3].id].name} has ${notices[3].type} - ${format(
-          new Date(notices[3].timestamp),
-          "HH:mm:ss"
-        )}`
-      );
-      expect(element).toBeInTheDocument();
-    });
+  test("renders NoticedMessage", () => {
+    const { members, notices } = renderMessages();
+    const joinedMessage = screen.getByText(
+      `${members[notices[0].id].name} has ${notices[0].type} - ${format(
+        new Date(notices[0].timestamp),
+        "HH:mm:ss"
+      )}`
+    );
+    const leftMessage = screen.getByText(
+      `${members[notices[3].id].name} has ${notices[3].type} - ${format(
+        new Date(notices[3].timestamp),
+        "HH:mm:ss"
+      )}`
+    );
+    expect(joinedMessage).toBeInTheDocument();
+    expect(leftMessage).toBeInTheDocument();
   });
 
-  describe("SentMessage", () => {
-    test("renders message", () => {
-      const { notices } = renderMessages();
-      if (notices[2].type !== "message") throw new Error();
-      const element = screen.getByText(notices[2].message);
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders timestamp", () => {
-      const { notices } = renderMessages();
-      const element = screen.getByText(
-        format(new Date(notices[2].timestamp), "HH:mm:ss")
-      );
-      expect(element).toBeInTheDocument();
-    });
+  test("renders SentMessage", () => {
+    const { notices } = renderMessages();
+    if (notices[2].type !== "message") throw new Error();
+    const message = screen.getByText(notices[2].message);
+    const timestamp = screen.getByText(
+      format(new Date(notices[2].timestamp), "HH:mm:ss")
+    );
+    expect(message).toBeInTheDocument();
+    expect(timestamp).toBeInTheDocument();
   });
 
-  describe("ReceivedMessage", () => {
-    test("renders message", () => {
-      const { notices } = renderMessages();
-      if (notices[1].type !== "message") throw new Error();
-      const element = screen.getByText(notices[1].message);
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders timestamp", () => {
-      const { notices } = renderMessages();
-      const element = screen.getByText(
-        format(new Date(notices[1].timestamp), "HH:mm:ss")
-      );
-      expect(element).toBeInTheDocument();
-    });
-
-    describe("MemberAvatar", () => {
-      test("renders first character of name", () => {
-        const { members, notices } = renderMessages();
-        const element = screen.getByText(members[notices[1].id].name[0]);
-        expect(element).toBeInTheDocument();
-      });
-    });
+  test("renders ReceivedMessage", () => {
+    const { members, notices } = renderMessages();
+    if (notices[1].type !== "message") throw new Error();
+    const message = screen.getByText(notices[1].message);
+    const timestamp = screen.getByText(
+      format(new Date(notices[1].timestamp), "HH:mm:ss")
+    );
+    const avatar = screen.getByText(members[notices[1].id].name[0]);
+    expect(message).toBeInTheDocument();
+    expect(timestamp).toBeInTheDocument();
+    expect(avatar).toBeInTheDocument();
   });
 });

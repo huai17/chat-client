@@ -9,12 +9,10 @@ describe("MemberListItem", () => {
     return { name };
   };
 
-  describe("MemberAvatar", () => {
-    test("renders first character of name", () => {
-      const { name } = renderMemberListItem(false);
-      const element = screen.getByText(name[0]);
-      expect(element).toBeInTheDocument();
-    });
+  test("renders MemberAvatar", () => {
+    const { name } = renderMemberListItem(false);
+    const element = screen.getByText(name[0]);
+    expect(element).toBeInTheDocument();
   });
 
   test("renders full name", () => {

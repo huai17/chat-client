@@ -28,44 +28,27 @@ describe("MemberList", () => {
     return { members, closeMemberList };
   };
 
+  test("renders MemberListItem", () => {
+    const { members } = renderMemberList();
+    const ids = Object.keys(members);
+    const name1 = screen.getByText(members[ids[0]].name);
+    const name2 = screen.getByText(members[ids[1]].name);
+    const avatar1 = screen.getByText(members[ids[0]].name[0]);
+    const avatar2 = screen.getByText(members[ids[1]].name[0]);
+    const online = screen.getByText("online");
+    const offline = screen.getByText("offline");
+    expect(name1).toBeInTheDocument();
+    expect(name2).toBeInTheDocument();
+    expect(avatar1).toBeInTheDocument();
+    expect(avatar2).toBeInTheDocument();
+    expect(online).toBeInTheDocument();
+    expect(offline).toBeInTheDocument();
+  });
+
   test("renders member list", () => {
     renderMemberList();
     const element = screen.getByText("Member List");
     expect(element).toBeInTheDocument();
-  });
-
-  describe("MemberListItem", () => {
-    describe("MemberAvatar", () => {
-      test("renders first character of name", () => {
-        const { members } = renderMemberList();
-        const ids = Object.keys(members);
-        const name1 = screen.getByText(members[ids[0]].name[0]);
-        const name2 = screen.getByText(members[ids[1]].name[0]);
-        expect(name1).toBeInTheDocument();
-        expect(name2).toBeInTheDocument();
-      });
-    });
-
-    test("renders full name", () => {
-      const { members } = renderMemberList();
-      const ids = Object.keys(members);
-      const name1 = screen.getByText(members[ids[0]].name);
-      const name2 = screen.getByText(members[ids[1]].name);
-      expect(name1).toBeInTheDocument();
-      expect(name2).toBeInTheDocument();
-    });
-
-    test("renders online", () => {
-      renderMemberList();
-      const element = screen.getByText("online");
-      expect(element).toBeInTheDocument();
-    });
-
-    test("renders offline", () => {
-      renderMemberList();
-      const element = screen.getByText("offline");
-      expect(element).toBeInTheDocument();
-    });
   });
 
   test("renders close member list button", () => {

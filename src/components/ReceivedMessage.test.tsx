@@ -24,6 +24,12 @@ describe("ReceivedMessage", () => {
     return { name, message, timestamp };
   };
 
+  test("renders MemberAvatar", () => {
+    const { name } = renderReceivedMessage();
+    const element = screen.getByText(name[0]);
+    expect(element).toBeInTheDocument();
+  });
+
   test("renders message", () => {
     const { message } = renderReceivedMessage();
     const element = screen.getByText(message);
@@ -34,13 +40,5 @@ describe("ReceivedMessage", () => {
     const { timestamp } = renderReceivedMessage();
     const element = screen.getByText(format(new Date(timestamp), "HH:mm:ss"));
     expect(element).toBeInTheDocument();
-  });
-
-  describe("MemberAvatar", () => {
-    test("renders first character of name", () => {
-      const { name } = renderReceivedMessage();
-      const element = screen.getByText(name[0]);
-      expect(element).toBeInTheDocument();
-    });
   });
 });
