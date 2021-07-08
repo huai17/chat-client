@@ -1,14 +1,22 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemberList } from "./MemberList";
+import { Members } from "../service/chat-service";
 
 describe("MemberList", () => {
-  test("renders member list", () => {
+  const renderMemberList = (): {
+    members: Members;
+    closeMemberList: jest.Mock<void, []>;
+  } => {
     const open = false;
-    const closeMemberList = jest.fn<void, []>();
-    const members = {
-      randomId1: { name: "Name 1", left: false },
-      randomId2: { name: "Name 2", left: true },
+    const id1 = "id";
+    const id2 = "anotherId";
+
+    const members: Members = {
+      [id1]: { name: "User", left: false },
+      [id2]: { name: "New User", left: true },
     };
+    const closeMemberList = jest.fn<void, []>();
+
     render(
       <MemberList
         open={open}
@@ -16,47 +24,61 @@ describe("MemberList", () => {
         members={members}
       />
     );
+
+    return { members, closeMemberList };
+  };
+
+  test("renders member list", () => {
+    renderMemberList();
     const element = screen.getByText("Member List");
     expect(element).toBeInTheDocument();
   });
 
-  test("renders members", () => {
-    const open = false;
-    const closeMemberList = jest.fn<void, []>();
-    const members = {
-      randomId1: { name: "Name 1", left: false },
-      randomId2: { name: "Name 2", left: true },
-    };
-    render(
-      <MemberList
-        open={open}
-        closeMemberList={closeMemberList}
-        members={members}
-      />
-    );
-    const element1 = screen.getByText(members.randomId1.name);
-    expect(element1).toBeInTheDocument();
-    const element2 = screen.getByText(members.randomId2.name);
-    expect(element2).toBeInTheDocument();
+  describe("MemberListItem", () => {
+    describe("MemberAvatar", () => {
+      test("renders first character of name", () => {
+        const { members } = renderMemberList();
+        const ids = Object.keys(members);
+        const name1 = screen.getByText(members[ids[0]].name[0]);
+        const name2 = screen.getByText(members[ids[0]].name[0]);
+        expect(name1).toBeInTheDocument();
+        expect(name2).toBeInTheDocument();
+      });
+    });
+
+    test("renders full name", () => {
+      const { members } = renderMemberList();
+      const ids = Object.keys(members);
+      const name1 = screen.getByText(members[ids[0]].name);
+      const name2 = screen.getByText(members[ids[0]].name);
+      expect(name1).toBeInTheDocument();
+      expect(name2).toBeInTheDocument();
+    });
+
+    test("renders online", () => {
+      renderMemberList();
+      const element = screen.getByText("online");
+      expect(element).toBeInTheDocument();
+    });
+
+    test("renders offline", () => {
+      renderMemberList();
+      const element = screen.getByText("offline");
+      expect(element).toBeInTheDocument();
+    });
   });
 
-  test("renders close member list button & triggers closeMemberList", () => {
-    const open = true;
-    const closeMemberList = jest.fn<void, []>();
-    const members = {
-      randomId1: { name: "Name 1", left: false },
-      randomId2: { name: "Name 2", left: true },
-    };
-    render(
-      <MemberList
-        open={open}
-        closeMemberList={closeMemberList}
-        members={members}
-      />
-    );
-    const element = screen.getByTestId("close member list");
+  test("renders close member list button", () => {
+    const testId = "close member list";
+    renderMemberList();
+    const element = screen.getByTestId(testId);
     expect(element).toBeInTheDocument();
+  });
 
+  test("triggers closeMemberList", () => {
+    const testId = "close member list";
+    const { closeMemberList } = renderMemberList();
+    const element = screen.getByTestId(testId);
     fireEvent.click(element);
     expect(closeMemberList.mock.calls.length).toBe(1);
   });

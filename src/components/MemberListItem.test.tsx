@@ -2,34 +2,35 @@ import { render, screen } from "@testing-library/react";
 import { MemberListItem } from "./MemberListItem";
 
 describe("MemberListItem", () => {
-  test("renders first character of name", () => {
+  const renderMemberListItem = (left: boolean): { name: string } => {
     const name = "Name";
-    const left = false;
     render(<MemberListItem name={name} left={left} />);
-    const element = screen.getByText(name[0]);
-    expect(element).toBeInTheDocument();
+
+    return { name };
+  };
+
+  describe("MemberAvatar", () => {
+    test("renders first character of name", () => {
+      const { name } = renderMemberListItem(false);
+      const element = screen.getByText(name[0]);
+      expect(element).toBeInTheDocument();
+    });
   });
 
   test("renders full name", () => {
-    const name = "Name";
-    const left = false;
-    render(<MemberListItem name={name} left={left} />);
+    const { name } = renderMemberListItem(false);
     const element = screen.getByText(name);
     expect(element).toBeInTheDocument();
   });
 
   test("renders online", () => {
-    const name = "Name";
-    const left = false;
-    render(<MemberListItem name={name} left={left} />);
+    renderMemberListItem(false);
     const element = screen.getByText("online");
     expect(element).toBeInTheDocument();
   });
 
   test("renders offline", () => {
-    const name = "Name";
-    const left = true;
-    render(<MemberListItem name={name} left={left} />);
+    renderMemberListItem(true);
     const element = screen.getByText("offline");
     expect(element).toBeInTheDocument();
   });
