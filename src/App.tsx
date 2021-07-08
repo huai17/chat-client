@@ -14,7 +14,7 @@ const App = () => {
       ) : chat.status === "connected" ? (
         <JoinRoomForm error={error} join={join} />
       ) : (
-        <CircularProgress />
+        <CircularProgress data-testid="loading" />
       )}
     </>
   );
