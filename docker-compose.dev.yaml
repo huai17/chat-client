@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  dev:
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - /usr/src/app/build
+      - /usr/src/app/node_modules
+      - .:/usr/src/app
