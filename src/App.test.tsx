@@ -1,6 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import App from "./App";
 import { createServer } from "http";
+import { AddressInfo } from "net";
 import { Server, Socket } from "socket.io";
 
 describe("App", () => {
@@ -36,6 +37,7 @@ describe("App", () => {
 
   describe("use case", () => {
     let srv: Server;
+    let port: number;
     let socket: Socket;
 
     beforeAll((done) => {
@@ -45,7 +47,11 @@ describe("App", () => {
         socket = _socket;
         hookServerListener(socket);
       });
-      httpServer.listen(5566, done);
+      httpServer.listen(() => {
+        const { port: _port } = httpServer.address() as AddressInfo;
+        port = _port;
+        done();
+      });
     });
 
     afterAll(() => {
@@ -53,7 +59,7 @@ describe("App", () => {
     });
 
     test("basic flow", async () => {
-      render(<App />);
+      render(<App serverUrl={`http://localhost:${port}`} />);
       // connected
       const joinButton = await waitFor(() => screen.getByTestId("join room"));
       const nameInput = screen.getByPlaceholderText("Nick Name");

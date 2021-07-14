@@ -83,7 +83,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       expect(result.current.error).toBeUndefined();
@@ -118,7 +118,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       result.current.join("Name", "Room");
@@ -160,7 +160,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       result.current.join("Name", "Room");
@@ -211,7 +211,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       result.current.join("Name", "Room");
@@ -250,7 +250,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       result.current.join("Name", "Room");
@@ -301,7 +301,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       result.current.join("Name", "Room");
@@ -361,7 +361,7 @@ describe("useChatService", () => {
 
     test("should update state", async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
-        useChatService(port)
+        useChatService(`http://localhost:${port}`)
       );
       await waitForNextUpdate();
       result.current.join("Name", "Room");

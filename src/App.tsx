@@ -3,8 +3,10 @@ import { JoinRoomForm } from "./components/JoinRoomForm";
 import { ChatRoom } from "./components/ChatRoom";
 import { useChatService } from "./service/chat-service";
 
-const App = () => {
-  const { join, error, ...chat } = useChatService();
+type Props = { serverUrl?: string };
+
+const App = ({ serverUrl }: Props) => {
+  const { join, error, ...chat } = useChatService(serverUrl);
 
   return (
     <>

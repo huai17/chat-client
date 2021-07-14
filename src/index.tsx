@@ -3,9 +3,13 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// url config
+const serverUrl =
+  process.env.NODE_ENV === "production" ? "http://localhost:5566" : undefined;
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App serverUrl={serverUrl} />
   </React.StrictMode>,
   document.getElementById("root")
 );
